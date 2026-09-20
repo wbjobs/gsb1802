@@ -1,0 +1,11 @@
+{
+  "name": "csp-observatory",
+  "version": "1.0.0",
+  "description": "CSP securitypolicyviolation aggregation, source analysis, remediation, and export",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "start": "python3 -m http.server 4173"
+  }
+}

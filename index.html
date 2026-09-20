@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSP 违规观测台</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-demo-20260920-static-change-per-request' 'strict-dynamic'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./src/styles.css">
+    <script nonce="demo-20260920-static-change-per-request" src="./src/bootstrap.js"></script>
+    <script>window.__CSP_INTENTIONALLY_BLOCKED__ = true;</script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">SecurityPolicyViolationEvent · IndexedDB · Web Worker</p>
+          <h1>CSP 违规观测台</h1>
+          <p class="subtitle">捕获、聚合并定位内容安全策略违规，给出可直接落地的 nonce、hash 与来源白名单修复。</p>
+        </div>
+        <div class="nonce-box">
+          <span>当前演示 nonce</span>
+          <code id="rotatedNonce">demo-20260920-static-change-per-request</code>
+          <button id="rotateNonce" class="secondary" type="button">生成新随机 nonce</button>
+        </div>
+      </header>
+
+      <section class="panel metrics" aria-label="总览指标">
+        <div class="metric"><span>违规总数</span><strong id="totalEvents">0</strong></div>
+        <div class="metric"><span>可见/总聚合</span><strong id="groupCount">0/0</strong></div>
+        <div class="metric"><span>可信浏览器事件</span><strong id="trustedEvents">0</strong></div>
+        <div class="metric"><span>性能测试事件</span><strong id="loadTestEvents">0</strong></div>
+      </section>
+
+      <main class="layout">
+        <section class="panel wide" aria-label="违规列表">
+          <div class="section-title">
+            <div>
+              <h2>违规聚合与修复</h2>
+              <p class="muted">相同指令、来源类型、位置和代码模式会合并计数。</p>
+            </div>
+            <div class="actions">
+              <button id="exportJson" type="button">导出 JSON</button>
+              <button id="exportJsonRaw" class="secondary" type="button">导出 JSON+原始事件</button>
+              <button id="exportCsv" class="secondary" type="button">导出 CSV</button>
+            </div>
+          </div>
+
+          <form id="filterForm" class="filters">
+            <label>指令
+              <select id="fDirective"></select>
+            </label>
+            <label>来源类型
+              <select id="fKind"></select>
+            </label>
+            <label>来源
+              <select id="fOrigin"></select>
+            </label>
+            <label class="search">搜索
+              <input id="fQuery" type="search" placeholder="指令 / 来源 / 样本">
+            </label>
+            <label class="checkbox">
+              <input id="fHideLoadTest" type="checkbox">
+              隐藏性能测试
+            </label>
+          </form>
+
+          <div id="groupList" class="group-list"></div>
+          <div class="toolbar">
+            <button id="clearLoadTest" class="secondary" type="button">清除性能测试数据</button>
+            <button id="clearAll" class="danger" type="button">清空全部</button>
+            <span id="status" class="status muted"></span>
+          </div>
+        </section>
+
+        <aside class="side">
+          <section class="panel">
+            <h2>来源分析</h2>
+            <h3>Top origins</h3>
+            <div id="originSummary" class="summary-list"></div>
+            <h3>按指令统计</h3>
+            <div id="directiveSummary" class="summary-list"></div>
+          </section>
+
+          <section class="panel">
+            <h2>真实触发验证</h2>
+            <p class="muted">第一个重放加载期违规；其余按钮创建未授权 DOM，浏览器会派发可信事件。</p>
+            <div class="button-stack">
+              <button id="trustInline" type="button">重放初始内联脚本违规</button>
+              <button id="trustHandler" class="secondary" type="button">制造内联事件违规</button>
+              <button id="trustExternal" class="secondary" type="button">制造外部图片违规</button>
+              <button id="synthetic" class="secondary" type="button">派发合成事件</button>
+            </div>
+            <div id="demoHost" class="demo-host"></div>
+          </section>
+
+          <section class="panel">
+            <h2>性能</h2>
+            <div class="perf-grid">
+              <span>队列</span><strong id="perfQueue">0/2000</strong>
+              <span>投递耗时</span><strong id="perfBatch">0 ms</strong>
+              <span>渲染耗时</span><strong id="perfRender">0 ms</strong>
+              <span>压力测试</span><strong id="perfLoad">未运行</strong>
+              <span>丢弃</span><strong id="perfDropped">0</strong>
+            </div>
+            <button id="loadTest" class="secondary full" type="button">生成 1000 条压力事件</button>
+          </section>
+        </aside>
+      </main>
+    </div>
+    <script nonce="demo-20260920-static-change-per-request" type="module" src="./src/app.js"></script>
+  </body>
+</html>
