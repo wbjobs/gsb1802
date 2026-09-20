@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Deliberately strict policy: this page itself is the test fixture. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; img-src 'self' https:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSP Violation Monitor — Dashboard</title>
+  <!-- boot.js must load before any other script to catch early violations -->
+  <script src="../src/boot.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Inline event handler: blocked at parse time, proves early capture works. -->
+  <span id="html-handler-probe" onclick="window.__probeFired && window.__probeFired()" hidden></span>
+
+  <header class="topbar">
+    <h1>CSP Violation Monitor</h1>
+    <p class="subtitle">securitypolicyviolation → IndexedDB → Web Worker aggregation &amp; remediation</p>
+  </header>
+
+  <section class="panel" id="trigger-panel">
+    <h2>1. Generate test violations</h2>
+    <p class="hint">This page ships a strict CSP. The first two violations fire automatically on load; use the buttons for more.</p>
+    <div class="btn-row">
+      <button data-action="inline">Inject inline &lt;script&gt;</button>
+      <button data-action="eval">Run eval()</button>
+      <button data-action="inline-handler">Add onclick attribute</button>
+      <button data-action="external-script">Load 3rd-party script</button>
+      <button data-action="external-image">Load 3rd-party image</button>
+      <button data-action="inline-style">Set style attribute</button>
+      <button data-action="style-tag">Inject &lt;style&gt;</button>
+      <button data-action="data-script">Load data: script</button>
+      <button data-action="connect">fetch() blocked host</button>
+    </div>
+    <pre id="trigger-log" class="log"></pre>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>2. Aggregated issues</h2>
+      <div class="actions">
+        <input id="filter" type="search" placeholder="filter directive / host…">
+        <label class="switch"><input type="checkbox" id="auto-refresh" checked> auto-refresh</label>
+        <button id="refresh" class="ghost">Refresh</button>
+        <button id="export-json">Export JSON</button>
+        <button id="export-csv">Export CSV</button>
+        <button id="export-html">Export HTML</button>
+        <button id="clear" class="danger">Clear data</button>
+      </div>
+    </div>
+
+    <div class="cards" id="cards"></div>
+    <div class="grid2">
+      <div>
+        <h3>Blocked origins</h3>
+        <div id="origins"></div>
+        <h3>By directive</h3>
+        <div id="directives"></div>
+      </div>
+      <div>
+        <h3>Rate (events / minute)</h3>
+        <div id="trend"></div>
+        <h3>Categories</h3>
+        <div id="categories"></div>
+      </div>
+    </div>
+
+    <div id="issues"></div>
+  </section>
+
+  <section class="panel">
+    <h2>3. Latest raw events</h2>
+    <div class="table-wrap">
+      <table id="events-table">
+        <thead>
+          <tr><th>Time</th><th>Directive</th><th>Kind</th><th>Blocked URI</th><th>Source</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <script type="module" src="app.js"></script>
+  <!-- Automatically blocked inline script (also visible in page source) -->
+  <script>console.log('this inline boot script is blocked by CSP');</script>
+</body>
+</html>

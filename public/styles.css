@@ -1,0 +1,129 @@
+:root {
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --panel-2: #273449;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #818cf8;
+  --high: #f87171;
+  --medium: #fbbf24;
+  --low: #60a5fa;
+  --ok: #34d399;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 14px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+.topbar { padding: 1.5rem 2rem .5rem; }
+.topbar h1 { margin: 0; font-size: 1.4rem; }
+.subtitle { color: var(--muted); margin: .2rem 0 0; }
+.panel {
+  background: var(--panel);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  margin: 1rem 2rem;
+  padding: 1.1rem 1.3rem;
+}
+.panel h2 { margin: 0 0 .6rem; font-size: 1.05rem; }
+.panel h3 { margin: 1rem 0 .4rem; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.hint { color: var(--muted); margin: 0 0 .8rem; }
+.btn-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+button {
+  background: var(--accent);
+  color: #1e1b4b;
+  border: 0;
+  border-radius: 7px;
+  padding: .45rem .8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.1); }
+button.ghost { background: var(--panel-2); color: var(--text); }
+button.danger { background: #7f1d1d; color: #fecaca; }
+.log {
+  background: #0b1220;
+  border-radius: 8px;
+  padding: .6rem .8rem;
+  margin: .8rem 0 0;
+  min-height: 2.2rem;
+  max-height: 9rem;
+  overflow: auto;
+  font-size: .8rem;
+  color: var(--ok);
+}
+.panel-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .6rem; }
+.actions { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+input[type="search"] {
+  background: var(--panel-2);
+  border: 1px solid #3b4a63;
+  color: var(--text);
+  border-radius: 6px;
+  padding: .4rem .6rem;
+}
+.switch { color: var(--muted); font-size: .82rem; display: flex; gap: .3rem; align-items: center; }
+.cards { display: flex; gap: .7rem; flex-wrap: wrap; margin: .8rem 0; }
+.card {
+  background: var(--panel-2);
+  border-radius: 9px;
+  padding: .6rem 1rem;
+  min-width: 120px;
+}
+.card b { font-size: 1.5rem; display: block; }
+.card span { color: var(--muted); font-size: .78rem; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } }
+.bar-row { display: grid; grid-template-columns: 1fr 120px 64px; gap: .5rem; align-items: center; margin: .25rem 0; font-size: .82rem; }
+.bar-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { background: #0b1220; height: 9px; border-radius: 5px; overflow: hidden; }
+.bar-fill { display: block; height: 100%; background: linear-gradient(90deg, #6366f1, #818cf8); }
+.bar-count { color: var(--muted); text-align: right; }
+.issue {
+  border: 1px solid #334155;
+  border-left: 4px solid var(--low);
+  border-radius: 9px;
+  padding: .8rem 1rem;
+  margin: .7rem 0;
+  background: var(--panel-2);
+}
+.issue.severity-high { border-left-color: var(--high); }
+.issue.severity-medium { border-left-color: var(--medium); }
+.issue-head { display: flex; justify-content: space-between; gap: .8rem; cursor: pointer; }
+.issue-title { font-weight: 600; }
+.issue-meta { color: var(--muted); font-size: .78rem; margin-top: .15rem; }
+.pill {
+  font-size: .72rem;
+  border-radius: 10px;
+  padding: .1rem .55rem;
+  font-weight: 700;
+  background: #334155;
+}
+.pill.high { background: #7f1d1d; color: #fecaca; }
+.pill.medium { background: #78350f; color: #fde68a; }
+.pill.low { background: #1e3a8a; color: #bfdbfe; }
+.issue-body { margin-top: .7rem; display: none; }
+.issue.open .issue-body { display: block; }
+pre.code {
+  background: #0b1220;
+  border-radius: 7px;
+  padding: .55rem .7rem;
+  overflow: auto;
+  font-size: .78rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.issue-body h4 { margin: .7rem 0 .25rem; font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.issue-body ol, .issue-body ul { margin: .2rem 0; padding-left: 1.2rem; }
+.issue-body li { margin: .15rem 0; font-size: .85rem; }
+code { background: #0b1220; padding: .05rem .3rem; border-radius: 4px; font-size: .85em; }
+.locs { font-family: ui-monospace, Menlo, monospace; font-size: .78rem; color: var(--muted); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid #334155; vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+.trend { display: flex; align-items: flex-end; gap: 2px; height: 70px; }
+.trend span { flex: 1; background: var(--accent); border-radius: 2px 2px 0 0; min-height: 1px; }
+.empty { color: var(--muted); padding: 1.5rem; text-align: center; }
